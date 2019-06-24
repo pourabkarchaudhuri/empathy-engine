@@ -1,0 +1,98 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi there", "How are you", "Is anyone there?", "Hello", "Good day", "Excuse me", "maam", "sir"],
+         "responses": ["Hello", "It is a relief to see someone", "Hi"],
+         "context": [""]
+        },
+        {"tag": "goodbye",
+         "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
+         "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
+         "context": [""]
+        },
+        {"tag": "thanks",
+         "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+         "responses": ["Please dont thank me. Just help me understand what to do!", "Seriously, what should I do?", "Was that sarcasm?"],
+         "context": [""]
+        },
+        {"tag": "noanswer",
+         "patterns": [],
+         "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
+         "context": [""]
+        },
+        {"tag": "family",
+        "patterns": ["Do you have a family?", "Do you have chilren?", "Anyone else living with you?", "Do you live alone", "Anyone else here?"],
+        "responses": ["I live alone", "Nobody else. Just me!", "No", "Just me", "Me alone."],
+        "context": [""]
+        },
+        {"tag": "injury",
+        "patterns": ["Are you injured?", "Are you hurt?", "Is there any injury?"],
+        "responses": ["A few scratches, nothing more", "Not that I know of", "Nothing major", "Not much"],
+        "context": [""]
+        },
+        {"tag": "residence",
+        "patterns": ["Do you live here?", "Is this your home?", "Is this your house?"],
+        "responses": ["Yes", "It is my home, yes."],
+        "context": [""]
+        },
+        {"tag": "medication",
+        "patterns": ["Are you on medication?", "Do you need any medicines?", "Do you require any special medication?"],
+        "responses": ["Yes", "It is my home, yes."],
+        "context": [""]
+        },
+        {"tag": "help",
+         "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
+         "responses": ["How can I help you? I don't know. What do you want from me?", "There is no food. Our stores went dry. Go away."],
+         "context": [""]
+        },
+        {"tag": "water",
+         "patterns": ["Did you drink anything?", "Are you thirsty?", "Are you hydrated?", "You look dehydrated"],
+         "responses": ["Look around you. There is dirty water everywhere. Where will we get clean water?", "I do need some clean water", "Extremely"],
+         "context": [""]
+        },
+        {"tag": "food",
+         "patterns": ["Did you eat anyting yet?", "Are you hungry?", "Have you eaten?", "Do you have food?", "How are your food stores?" ],
+         "responses": ["I did not eat anything at all", "Our food stores got destroyed. Nothing left.", "No", "Not really", "I was too worried to eat", "I'm not hungry"],
+         "context": [""]
+        },
+        {"tag": "occurence",
+         "patterns": ["What happened?", "What the hell happened here?", "How did this happen?", "Can you tell me what happened?", "How did this happen at all?" ],
+         "responses": ["I remember waking up and the bungalow shaking, and the shaking was getting more and more violent! It was shaking so much and I was trying to work out what was going on. And the noise, what I was able to make out of, was kind of like a river flowing angrily.", "Our food stores got destroyed. Nothing left."],
+         "context": [""]
+        },
+        {"tag": "extraction",
+         "patterns": ["We need to get you to a safe place", "Come with me. I will take you to a safe place", "We should get out of here", "Come with me", "Lets get you to safety" ],
+         "responses": ["Is it going to be safe?", "Are you sure it is safe to go?"],
+         "context": ["search_blood_pressure_by_patient_id"]
+        },
+        {"tag": "search_blood_pressure_by_patient_id",
+         "patterns": [],
+         "responses": ["Loading Blood pressure result for Patient"],
+         "context": [""]
+        },
+        {"tag": "pharmacy_search",
+         "patterns": ["Find me a pharmacy", "Find pharmacy", "List of pharmacies nearby", "Locate pharmacy", "Search pharmacy" ],
+         "responses": ["Please provide pharmacy name"],
+         "context": ["search_pharmacy_by_name"]
+        },
+        {"tag": "search_pharmacy_by_name",
+         "patterns": [],
+         "responses": ["Loading pharmacy details"],
+         "context": [""]
+        },
+        {"tag": "hospital_search",
+         "patterns": ["Lookup for hospital", "Searching for hospital to transfer patient", "I want to search hospital data", "Hospital lookup for patient", "Looking up hospital details" ],
+         "responses": ["Please provide hospital name or location"],
+         "context": ["search_hospital_by_params"]
+        },
+        {"tag": "search_hospital_by_params",
+         "patterns": [],
+         "responses": ["Please provide hospital type"],
+         "context": ["search_hospital_by_type"]
+        },
+        {"tag": "search_hospital_by_type",
+         "patterns": [],
+         "responses": ["Loading hospital details"],
+         "context": [""]
+        }
+   ]
+}

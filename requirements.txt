@@ -1,0 +1,6 @@
+textblob
+flask
+flask_cors
+tensorflow==1.9.0
+Keras
+pandas
