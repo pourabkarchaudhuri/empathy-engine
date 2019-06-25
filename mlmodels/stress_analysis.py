@@ -43,6 +43,8 @@ def stress_analyzer(sentiment, intent, stress):
             stress = stress + random.randint(1, 5)
         elif sentiment=='positive':
             stress = stress - random.randint(1, 5)
+        elif sentiment=='supportive':
+            stress = stress - random.randint(1, 5)
         else:
             print("No change in stress")
     else:

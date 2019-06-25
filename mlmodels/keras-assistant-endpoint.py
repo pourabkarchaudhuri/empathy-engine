@@ -136,7 +136,14 @@ def classify():
     output_context = None
     # print("Results Length : ", len(results))
     if len(results) == 0:
-        return_list.append({"query": sentence, "intent": "fallback", "response": random.choice(fallback_dict), "context": None, "probability": "0.00", "entities": None, "sentiment":sentiment, "stress":stress, "trigger":'confused', "responsive":True, "reaction":None, 'completion':False})
+        stress_payload = stress_analysis.stress_analyzer(sentiment['polarity'], 'fallback', stress)
+
+        stress = stress_payload['stress']
+        trigger = stress_payload['trigger']
+        responsive = stress_payload['responsive']
+        reaction = stress_payload['reaction']
+        completion = stress_payload['completion']
+        return_list.append({"query": sentence, "intent": "fallback", "response": random.choice(fallback_dict), "context": None, "probability": "0.00", "entities": None, "sentiment":sentiment, "stress":stress, "trigger": trigger, "responsive":responsive, "reaction":reaction, 'completion':False})
     else:
         # print("Inference Exists")
         for r in results:
@@ -147,7 +154,7 @@ def classify():
             for x_tend in intents['intents']:
                 
                 if classes[r[0]] == x_tend['tag']:
-                    # print("Entities Length : ", len(entities))
+                    print("Entities Length : ", len(entities))
                     if x_tend['context'] == "":
                         output_context = None
                     if entities is None:
