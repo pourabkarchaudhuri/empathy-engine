@@ -7,10 +7,10 @@
 
 import random
 intent_state = False
-intent_state_name = False
+intent_state_name = None
 global_intent_repeat = 0
 is_completed = False
-
+# is_repeat = False
 def stress_analyzer(sentiment, intent, stress):
     trigger = None
     is_responsive = True
@@ -18,10 +18,12 @@ def stress_analyzer(sentiment, intent, stress):
     global intent_state_name
     global is_completed
     if intent_state is not True:
-        print("Fresh Start")
+        # print("Fresh Start")
+        intent_state_name = None
     else:
         if intent_state_name == intent:
-            print("Repeating Intent : {}".format(intent))
+            
+            # print("Repeating Intent : {}".format(intent))
             if(stress>90):
                 stress = stress + random.randint(1, 5)
                 trigger = 'dont_annoy'
@@ -33,24 +35,27 @@ def stress_analyzer(sentiment, intent, stress):
             elif stress>0 and stress<=70:
                 trigger = None
         else:
-            print("New Intent : {}".format(intent))
+            # print("New Intent : {}".format(intent))
+            intent_state_name = None
 
     reaction = ""
     
-    print("Stress Input : {}".format(stress))
+    # print("Stress Input : {}".format(stress))
     if stress<100:
         if sentiment=='negative':
-            stress = stress + random.randint(1, 5)
+            stress = stress + random.randint(1, 8)
         elif sentiment=='positive':
-            stress = stress - random.randint(1, 5)
+            stress = stress - random.randint(1, 8)
         elif sentiment=='supportive':
+            stress = stress - random.randint(1, 5)
+        elif sentiment=='neutral':
             stress = stress - random.randint(1, 5)
         else:
             print("No change in stress")
     else:
         print("Full Stress")
     if stress>=100:
-        stress=100
+        stress=95
     
     if stress>90:
         reaction = "extreme"
@@ -65,7 +70,7 @@ def stress_analyzer(sentiment, intent, stress):
         is_completed = True
 
     print("Current Stress Level {}, with Reaction {}".format(stress, reaction))
-    intent_state_name = intent
+    # intent_state_name = intent
     intent_state = True
     print("Intent State Name is {}, and State {}".format(intent_state_name, intent_state))
     response = {
@@ -73,8 +78,11 @@ def stress_analyzer(sentiment, intent, stress):
         'stress': stress,
         'trigger': trigger,
         'responsive': is_responsive,
-        'completion': is_completed
+        'completion': is_completed,
+        'repeat': intent_state_name
     }
+    intent_state_name = intent
+    is_completed = False
     print("Output Payload : ", response)
     return response
 

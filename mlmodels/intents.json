@@ -1,17 +1,22 @@
 {"intents": [
         {"tag": "greeting",
-         "patterns": ["Hi there", "How are you", "Is anyone there?", "Hello", "Good day", "Excuse me", "maam", "sir"],
-         "responses": ["Hello", "It is a relief to see someone", "Hi"],
+         "patterns": ["Hi there", "How are you", "Is anyone there", "Hello", "Good day", "Excuse me", "maam", "sir", "Hey there", "Hey", "Anyone here", "Anyone alive", "can anyone here me"],
+         "responses": ["Hello", "It is a relief to see someone", "Hi", "Finally someone is here", "Help me", "I need your help"],
+         "context": [""]
+        },
+        {"tag": "name",
+         "patterns": ["what is your name", "can you tell me your name", "who are you", "please tell me your name", "may i ask your name"],
+         "responses": ["Its Amanda", "I'm Amanda. Amanda Waller", "My name is Amanda. Amanda Waller.", "My name? What is my name? Oh my name! Its Amanda. Im sorry, my mind is drifting."],
+         "context": [""]
+        },
+        {"tag": "status",
+         "patterns": ["are you ok", "are you okay", "are you feeling ok", "are you feeling alright", "how are you feeling", "how are you holding up"],
+         "responses": ["i dont know how i feel about this", "what do you think I should be feeling right now", "not good. not good at all."],
          "context": [""]
         },
         {"tag": "goodbye",
-         "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
-         "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
-         "context": [""]
-        },
-        {"tag": "thanks",
-         "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
-         "responses": ["Please dont thank me. Just help me understand what to do!", "Seriously, what should I do?", "Was that sarcasm?"],
+         "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time", "good bye", "i am going to leave you here", "stay here"],
+         "responses": ["Dont leave me here", "I knew you were not going to help me", "if you are not going to help, then please go away."],
          "context": [""]
         },
         {"tag": "noanswer",
@@ -20,8 +25,8 @@
          "context": [""]
         },
         {"tag": "family",
-        "patterns": ["Do you have a family?", "Do you have chilren?", "Anyone else living with you?", "Do you live alone", "Anyone else here?"],
-        "responses": ["I live alone", "Nobody else. Just me!", "No", "Just me", "Me alone."],
+        "patterns": ["Do you have a family?", "Do you have children?", "Anyone else living with you?", "Do you live alone", "Anyone else here?"],
+        "responses": ["I live alone", "Nobody else. Just me!", "No", "Just me", "Me alone.", "No its just me", "I am the only one who survived"],
         "context": [""]
         },
         {"tag": "injury",
@@ -31,22 +36,32 @@
         },
         {"tag": "residence",
         "patterns": ["Do you live here?", "Is this your home?", "Is this your house?"],
-        "responses": ["Yes", "It is my home, yes."],
+        "responses": ["Yes i live here. More like lived here.", "It is my home, yes."],
         "context": [""]
         },
         {"tag": "medication",
         "patterns": ["Are you on medication?", "Do you need any medicines?", "Do you require any special medication?"],
-        "responses": ["Yes", "It is my home, yes."],
+        "responses": ["No i dont need medicine.", "i dont need any medicine"],
         "context": [""]
         },
         {"tag": "help",
          "patterns": ["How you could help me?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered"],
-         "responses": ["How can I help you? I don't know. What do you want from me?", "There is no food. Our stores went dry. Go away."],
+         "responses": ["I don't know what you want from me", "There is no food. Our stores went dry. Go away."],
          "context": [""]
         },
         {"tag": "water",
          "patterns": ["Did you drink anything?", "Are you thirsty?", "Are you hydrated?", "You look dehydrated"],
-         "responses": ["Look around you. There is dirty water everywhere. Where will we get clean water?", "I do need some clean water", "Extremely"],
+         "responses": ["Look around you. There is dirty water everywhere.", "I do need some clean water", "Extremely thirsty. Do you have some water?"],
+         "context": ["water_yes", "water_no"]
+        },
+        {"tag": "water_yes",
+         "patterns": [],
+         "responses": ["Thank you so much. I did not have any water to drink. any longer, and i would have had to drink dirty water"],
+         "context": [""]
+        },
+        {"tag": "water_no",
+         "patterns": [],
+         "responses": ["too bad. i should not be expecting anything from anyone at this point"],
          "context": [""]
         },
         {"tag": "food",
@@ -61,7 +76,12 @@
         },
         {"tag": "extraction",
          "patterns": ["We need to get you to a safe place", "Come with me. I will take you to a safe place", "We should get out of here", "Come with me", "Lets get you to safety", "You will be okay" ],
-         "responses": ["Is it going to be safe?", "Are you sure it is safe to go?"],
+         "responses": ["I dont know what to do", "There is nowhere safe anymore from what I have seen"],
+         "context": [""]
+        },
+        {"tag": "contact",
+         "patterns": ["did you try to contact anyone", "have you contacted anyone", "did you try to communicate with anyone else", "have you spoken to anyone"],
+         "responses": ["The communications went down. Complete loss of signal. I could not get through to anyone"],
          "context": [""]
         }
    ]

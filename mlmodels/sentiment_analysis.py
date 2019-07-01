@@ -6,15 +6,15 @@ def sentiment_analyzer(text):
     inferenced_subjectivity = ""
 
     testimonial = TextBlob(text)
-    print("Polarity : {}".format(round(testimonial.sentiment.polarity, 2)))
+    # print("Polarity : {}".format(round(testimonial.sentiment.polarity, 2)))
     polarity = round(testimonial.sentiment.polarity, 2)
-    print("Subjectivity : {}".format(round(testimonial.sentiment.subjectivity, 2)))
+    # print("Subjectivity : {}".format(round(testimonial.sentiment.subjectivity, 2)))
     subjectivity = round(testimonial.sentiment.subjectivity, 2)
 
     if polarity==0.0:
         inferenced_polarity = 'neutral'
         # print("Negative")
-    elif polarity<0.65 and polarity>0.25:
+    elif polarity<0.65 and polarity>0.00:
         # print("Neutral")
         inferenced_polarity = 'supportive'
     elif polarity>=0.65:

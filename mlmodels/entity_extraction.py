@@ -9,7 +9,8 @@ print("Downloading Spacy Models")
 
 def named_entity_extraction(text):
     doc = nlp(text)
-
+    name = ""
+    description = ""
     entity = []
     for ent in doc.ents:
         # print("Iterating : ", ent)
