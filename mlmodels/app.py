@@ -19,10 +19,13 @@ import entity_extraction
 import sentiment_analysis
 import stress_analysis
 
-import os
 
-stress = 78
-print("INITIALIZING STRESS LEVEL : {}".format(stress))
+import os
+THRESHOLD = 0.99
+DEFAULT_STRESS = 78
+
+stress = DEFAULT_STRESS
+# print("INITIALIZING STRESS LEVEL : {}".format(stress))
 os.environ["CUDA_VISIBLE_DEVICES"]="-1"
 # Toggle comment above to run on CPU
 import tensorflow as tf
@@ -41,8 +44,8 @@ classes = data['classes']
 with open('intents.json') as json_data:
     intents = json.load(json_data)
 
-fallback_dict = ["I'm sorry, I don't know that yet", "Can you please rephrase that?", "I do not have any info on that yet.", "I am still learning, can you type that out in a different way?"]
-
+fallback_dict = ["Please ask me something else!", "I dont think you should be asking me that", "I am not going to respond to that", "I dont want to talk about that. If you have any other questions then ok."]
+repeat_dict = ['stop repeating yourself!', "you are saying the same thing over and over again", "stop saying the same thing", "i am in so much pain, and here you are asking me the same thing over and over again!"]
 def clean_up_sentence(sentence):
     # tokenize the pattern
     sentence_words = nltk.word_tokenize(sentence)
@@ -81,7 +84,7 @@ with open(f'keras-assistant-model.pkl', 'rb') as f:
     model = pickle.load(f)
 
 def classify_local(sentence):
-    ERROR_THRESHOLD = 0.75
+    ERROR_THRESHOLD = THRESHOLD
     
     # generate probabilities from the model
     input_data = pd.DataFrame([bow(sentence, words)], dtype=float, index=['input'])
@@ -97,6 +100,14 @@ def classify_local(sentence):
     
     return return_list
 
+def conversation_logger(input_sentence, intent_name, output_sentence):
+    with open('conversations.txt', 'a') as file:
+        file.write("INPUT : " + input_sentence + "\n" + "INTENT : " + intent_name + "\n" + "OUTPUT : " + output_sentence + "\n\n")
+
+def fallback_logger(input_sentence):
+    with open('fallback_sentences.txt', 'a') as file:
+        file.write(input_sentence + "\n")
+
 
 classify_local('Hello World!')
 
@@ -106,7 +117,7 @@ CORS(app)
 @app.route("/ml/api/v1.0/assistant", methods=['POST'])
 def classify():
     global stress
-    ERROR_THRESHOLD = 0.75
+    ERROR_THRESHOLD = THRESHOLD
     context = None
     sentence = request.json['sentence']
     # print(sentence)
@@ -136,13 +147,26 @@ def classify():
     output_context = None
     # print("Results Length : ", len(results))
     if len(results) == 0:
-        return_list.append({"query": sentence, "intent": "fallback", "response": random.choice(fallback_dict), "context": None, "probability": "0.00", "entities": None, "sentiment":sentiment, "stress":stress, "trigger":'confused', "responsive":True, "reaction":None, 'completion':False})
+        # print("Fallback detected")
+        stress_payload = stress_analysis.stress_analyzer(sentiment['polarity'], 'fallback', stress)
+
+        stress = stress_payload['stress']
+        trigger = stress_payload['trigger']
+        responsive = stress_payload['responsive']
+        reaction = stress_payload['reaction']
+        completion = stress_payload['completion']
+
+        fallback_logger(sentence)
+
+        return_list.append({"query": sentence, "intent": "fallback", "response": random.choice(fallback_dict), "context": None, "probability": "0.00", "entities": None, "sentiment":sentiment, "stress":stress, "trigger": trigger, "responsive":responsive, "reaction":reaction, 'completion':False})
+       
+        
     else:
         # print("Inference Exists")
         for r in results:
             if context != None:
                     classes[r[0]] = context
-                    # print("Class Value : ", classes[r[0]])
+                    # print("Class Value for context: ", classes[r[0]])
 
             for x_tend in intents['intents']:
                 
@@ -163,11 +187,29 @@ def classify():
                     reaction = stress_payload['reaction']
                     completion = stress_payload['completion']
 
-                    return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(x_tend['responses']), "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+       
+
+                    if reaction == 'extreme':
+                        if stress_payload['repeat'] is not None:
+                            return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(repeat_dict), "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+                    elif reaction == 'shock':
+                            return_list.append({"query": sentence, "intent": classes[r[0]], "response": "", "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+
+                    normal_response = random.choice(x_tend['responses'])
+                    normal_intent = classes[r[0]]
+
+                    conversation_logger(sentence, normal_intent, normal_response)
+
+                    return_list.append({"query": sentence, "intent": normal_intent, "response": normal_response, "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
         # return tuple of intent and probability
         
     response = jsonify({"result":return_list, "error":None})
-    print("GLOBAL STRESS LEVEL : {}".format(stress))
+    # print("Completion Status : {}".format(completion))
+    if completion:
+        stress = DEFAULT_STRESS
+        # print("Level complete. Resetting Stress to default {}".format(DEFAULT_STRESS))
+        
+    # print("GLOBAL STRESS LEVEL : {}".format(stress))
     return response
 
 # running REST interface, port=5000 for direct test, port=5001 for deployment from PM2
