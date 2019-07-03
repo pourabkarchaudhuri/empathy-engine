@@ -44,7 +44,7 @@ classes = data['classes']
 with open('intents.json') as json_data:
     intents = json.load(json_data)
 
-fallback_dict = ["Please ask me something else!", "I dont think you should be asking me that", "I am not going to respond to that", "I dont want to talk about that. If you have any other questions then ok."]
+fallback_dict = ["Please ask me something else!", "I am not comfortable answering that.", "I dont want to talk about that. If you have any other questions then ok."]
 repeat_dict = ['stop repeating yourself!', "you are saying the same thing over and over again", "stop saying the same thing", "i am in so much pain, and here you are asking me the same thing over and over again!"]
 def clean_up_sentence(sentence):
     # tokenize the pattern
