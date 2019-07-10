@@ -10,6 +10,9 @@ intent_state = False
 intent_state_name = None
 global_intent_repeat = 0
 is_completed = False
+
+repeat_counter = 0
+
 # is_repeat = False
 def stress_analyzer(sentiment, intent, stress):
     trigger = None
@@ -17,12 +20,14 @@ def stress_analyzer(sentiment, intent, stress):
     global intent_state
     global intent_state_name
     global is_completed
+    global repeat_counter
     if intent_state is not True:
         # print("Fresh Start")
         intent_state_name = None
+        repeat_counter = 0
     else:
         if intent_state_name == intent:
-            
+            repeat_counter = repeat_counter + 1
             # print("Repeating Intent : {}".format(intent))
             if(stress>90):
                 stress = stress + random.randint(1, 5)
@@ -37,23 +42,26 @@ def stress_analyzer(sentiment, intent, stress):
         else:
             # print("New Intent : {}".format(intent))
             intent_state_name = None
+            repeat_counter = 0
 
     reaction = ""
     
     # print("Stress Input : {}".format(stress))
     if stress<100:
         if sentiment=='negative':
-            stress = stress + random.randint(1, 8)
+            stress = stress + random.randint(1, 5)
         elif sentiment=='positive':
-            stress = stress - random.randint(1, 8)
+            stress = stress - random.randint(1, 5)
         elif sentiment=='supportive':
             stress = stress - random.randint(1, 5)
         elif sentiment=='neutral':
-            stress = stress - random.randint(1, 5)
+            stress = stress - random.randint(1, 2)
         else:
             print("No change in stress")
     else:
         print("Full Stress")
+
+
     if stress>=100:
         stress=95
     
@@ -72,6 +80,14 @@ def stress_analyzer(sentiment, intent, stress):
     print("Current Stress Level {}, with Reaction {}".format(stress, reaction))
     # intent_state_name = intent
     intent_state = True
+    print("Repeat Counter : {}".format(repeat_counter))
+    if repeat_counter > 1:
+        # intent_state_name = None    
+        stress = stress + random.randint(1, 5)
+        print("Stress due to repeat : {}".format(stress))
+    else:
+        intent_state_name = None
+
     print("Intent State Name is {}, and State {}".format(intent_state_name, intent_state))
     response = {
         'reaction':reaction,

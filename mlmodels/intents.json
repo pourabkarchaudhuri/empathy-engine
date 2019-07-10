@@ -4,32 +4,32 @@
          "responses": ["Hey, you must be here to help", "It is a relief to see someone", "Hi, I need some help", "Finally someone is here", "Please, Help me", "I need your help"],
          "context": [""]
         },
-        {"tag": "name",
+        {"tag": "my_name",
          "patterns": ["what is your name", "can you tell me your name", "who are you", "please tell me your name", "may i ask your name", "what's your name", "i didn't get your name"],
          "responses": ["Its Amanda", "I'm Amanda. Amanda Waller", "My name is Amanda. Amanda Waller.", "My name? What is my name? Oh my name! Its Amanda. Im sorry, my mind is drifting."],
          "context": [""]
         },
-        {"tag": "age",
+        {"tag": "my_age",
          "patterns": ["how old are you", "what is your age"],
          "responses": ["twenty six", "I'm twenty six years old"],
          "context": [""]
         },
-        {"tag": "status",
-         "patterns": ["are you ok", "are you okay", "are you feeling ok", "are you feeling alright", "how are you feeling", "how are you holding up", "are you alright", "what's your problem", "what is your problem", "is it better now", "are you better now", "don't worry", "you look pretty beat up"],
+        {"tag": "my_feelings",
+         "patterns": ["hello is everything OK", "are you ok", "are you okay", "are you feeling ok", "are you feeling alright", "how are you feeling", "how are you holding up", "are you alright", "what's your problem", "what is your problem", "is it better now", "are you better now", "don't worry", "you look pretty beat up", "how are you doing", "are you fine now", "just stay calm"],
          "responses": ["i dont know how i feel about this", "I'm very confused right now", "I'm not feeling good. not feeling good at all."],
          "context": [""]
         },
-        {"tag": "look_at_user",
+        {"tag": "me_looking_at_you",
          "patterns": ["look at me", "turn towards me", "can you lift your head and look at me", "look here", "look into my eyes"],
          "responses": ["Yes, I am looking at you", "I'm looking", "What?"],
          "context": [""]
         },
-        {"tag": "conversation_filler",
+        {"tag": "random_things",
          "patterns": ["what nonesense", "what rubbish"],
          "responses": ["these is nothing nonsense about this.", "not good. not good at all."],
          "context": [""]
         },
-        {"tag": "goodbye",
+        {"tag": "farewells",
          "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time", "good bye", "i am going to leave you here", "stay here"],
          "responses": ["Dont leave me here", "I knew you were not going to help me", "if you are not going to help, then please go away."],
          "context": [""]
@@ -39,22 +39,22 @@
          "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
          "context": [""]
         },
-        {"tag": "family",
-        "patterns": ["Do you have a family?", "Do you have children?", "Anyone else living with you?", "Do you live alone", "Anyone else here?", "are you alone", "where is your father", "where is your mother", "where are your family members"],
+        {"tag": "my_family",
+        "patterns": ["who is your family", "Do you have a family?", "Do you have children?", "Anyone else living with you?", "Do you live alone", "Anyone else here?", "are you alone", "where is your father", "where is your mother", "where are your family members", "I will find other members", "we will find your family members"],
         "responses": ["I live alone. My family lives in Houston", "Nobody else. Just me!", "No, only me. I rented this apartment and was going to buy a house here. Looks like that is not happening any time soon", "Just me. Sometimes it makes me wonder whether i just have bad luck.", "Me alone.", "No its just me", "I am the only one who survived"],
         "context": [""]
         },
-        {"tag": "injury",
+        {"tag": "my_injuries",
         "patterns": ["Are you injured?", "Are you hurt?", "Is there any injury?", "is there any problem with you", "is there any thing wrong with you now"],
         "responses": ["A few scratches, nothing more", "Not that I know of", "Nothing major", "Not much"],
         "context": [""]
         },
-        {"tag": "residence",
+        {"tag": "my_residence",
         "patterns": ["Do you live here?", "Is this your home?", "Is this your house?", "did you live here", "is this your apartment"],
         "responses": ["Yes i live here. More like lived here. Its not really in well furnished anymore.", "It is my home, yes. It was a rented apartment."],
         "context": [""]
         },
-        {"tag": "medication",
+        {"tag": "my_medication",
         "patterns": ["Are you on medication?", "Do you need any medicines?", "Do you require any special medication?"],
         "responses": ["No i dont need medicine.", "i dont need any medicine. I just need to get out of here"],
         "context": [""]
@@ -84,17 +84,17 @@
          "responses": ["I did not eat anything at all", "Food? Our food stores got destroyed. Nothing left.", "No", "Not really", "I was too worried to eat", "I'm not hungry"],
          "context": [""]
         },
-        {"tag": "occurence",
+        {"tag": "what_happened",
          "patterns": ["What happened?", "What the hell happened here?", "How did this happen?", "Can you tell me what happened?", "How did this happen at all?" ],
          "responses": ["I remember waking up and the building shaking, and the shaking was getting more and more violent! It was shaking so much and I was trying to work out what was going on. And the noise, what I was able to make out of, was kind of like a river flowing angrily.", "Our food stores got destroyed. Nothing left."],
          "context": [""]
         },
         {"tag": "extraction",
-         "patterns": ["We need to get you to a safe place", "Come with me. I will take you to a safe place", "We should get out of here", "Come with me", "Lets get you to safety", "You will be okay", "im here to get you to safety", "let's get you out of here", "come with me" ],
+         "patterns": ["We need to get you to a safe place", "Come with me. I will take you to a safe place", "We should get out of here", "Come with me", "Lets get you to safety", "You will be okay", "im here to get you to safety", "let's get you out of here", "come with me", "I'm here to save you" ],
          "responses": ["I dont know what to do", "There is nowhere safe anymore from what I have seen"],
          "context": [""]
         },
-        {"tag": "contact",
+        {"tag": "contact_with_other_people",
          "patterns": ["did you try to contact anyone", "have you contacted anyone", "did you try to communicate with anyone else", "have you spoken to anyone", "are there others", "is there anyone you had contact with"],
          "responses": ["The communications went down. Complete loss of signal. I could not get through to anyone"],
          "context": [""]
@@ -113,15 +113,9 @@
         "context":[""]
         },
         {
-        "tag":"move",
-        "patterns":["can you move","can you get up", "stand up", "can you stand up", "please stand up", "hold my hand", "can you hold my hand"],
+        "tag":"moving_somewhere",
+        "patterns":["OK come down", "can you move","can you get up", "stand up", "can you stand up", "please stand up", "hold my hand", "can you hold my hand", "please stand up and move backwards", "can you move your hands", "can you move your", "stay there", "stay there i will come around and get you", "can you come this side", "you're already sitting on a plank"],
         "responses":["I don't want to go anywhere. There is water everywhere", "I cannot move from this place. This place is still safer than the other areas", "I dont want to go anywhere else"],
-        "context":[""]
-        },
-        {
-        "tag":"move_body",
-        "patterns":["can you move your hands", "can you move your", "stand up", "can you stand up", "please stand up", "hold my hand", "can you hold my hand", "stay there", "stay there i will come around and get you", "can you come this side"],
-        "responses":["I don't want to go anywhere. There is water everywhere", "I don't move from this place. This place is still safer than the other areas", "I dont want to go anywhere else"],
         "context":[""]
         }
    ]

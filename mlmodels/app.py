@@ -21,7 +21,7 @@ import stress_analysis
 
 
 import os
-THRESHOLD = 0.99
+THRESHOLD = 0.9
 DEFAULT_STRESS = 78
 
 stress = DEFAULT_STRESS
@@ -46,7 +46,7 @@ with open('intents.json') as json_data:
 
 extraction_dict = ["Okay. Fine. I'll come with you. Just get me to safety. Let's go!", "Then what are we waiting for. Let's go!"]
 fallback_dict = ["Please ask me something else!", "I dont think you should be asking me that", "I am not going to respond to that", "I dont want to talk about that. If you have any other questions then ok."]
-repeat_dict = ['stop repeating yourself!', "you are saying the same thing over and over again", "stop saying the same thing", "i am in so much pain, and here you are asking me the same thing over and over again!"]
+repeat_dict = ['Stop repeating yourself!', "You are saying the same thing over and over again.", "Stop saying the same thing.", "I am in so much pain, and here you are asking me the same thing over and over again!"]
 def clean_up_sentence(sentence):
     # tokenize the pattern
     sentence_words = nltk.word_tokenize(sentence)
@@ -188,20 +188,20 @@ def classify():
 
                     if completion is True:
                         print("Extraction completion event triggered!")
-                        return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(extraction_dict), "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+                        return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(extraction_dict), "context": output_context, "probability": "{0:.5f}".format(r[1]), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
 
-                    if reaction == 'extreme':
-                        if stress_payload['repeat'] is not None:
-                            return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(repeat_dict), "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
-                          
+                    # if reaction == 'extreme':
+                    if stress_payload['repeat'] is not None:
+                        return_list.append({"query": sentence, "intent": classes[r[0]], "response": random.choice(repeat_dict) + " " + "You are only talking about " + classes[r[0]].replace("_", " "), "context": output_context, "probability": "{0:.5f}".format(r[1]), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+                        
                     elif reaction == 'shock':
-                            return_list.append({"query": sentence, "intent": classes[r[0]], "response": "", "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+                            return_list.append({"query": sentence, "intent": classes[r[0]], "response": "", "context": output_context, "probability": "{0:.5f}".format(r[1]), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
                           
                     normal_response = random.choice(x_tend['responses'])
                     normal_intent = classes[r[0]]
 
                     conversation_logger(sentence, normal_intent, normal_response)
-                    return_list.append({"query": sentence, "intent": normal_intent, "response": normal_response, "context": output_context, "probability": str(round(r[1],2)), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
+                    return_list.append({"query": sentence, "intent": normal_intent, "response": normal_response, "context": output_context, "probability": "{0:.5f}".format(r[1]), "entities": entities, "sentiment":sentiment, "stress":stress, "trigger":trigger, "responsive":responsive, "reaction":reaction, 'completion':completion})
         # return tuple of intent and probability
 
     response = jsonify({"result":return_list, "error":None})
@@ -212,6 +212,14 @@ def classify():
         
     # print("GLOBAL STRESS LEVEL : {}".format(stress))
     return response
+
+#Implement Another API to RESET The stress value and threshold remotely
+@app.route("/ml/api/v1.0/reset", methods=['GET'])
+def reset():
+    global stress
+    stress = int(request.args.get('stress'))
+    return jsonify({"result":stress, "error":None})
+
 
 # running REST interface, port=5000 for direct test, port=5001 for deployment from PM2
 if __name__ == "__main__":
